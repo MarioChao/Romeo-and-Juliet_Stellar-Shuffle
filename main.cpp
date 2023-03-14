@@ -1,4 +1,5 @@
-// Romeo and Juliet - main
+// Romeo and Juliet Stellar Shuffle - main
+// Run in terminal to avoid lag
 
 #include <iostream>
 #include <cstdlib>
@@ -204,7 +205,7 @@ void printCoordinate(string arr[maxItems][maxItems], int rows, int cols, int def
 void checkWin(string correctAns, string response) {
     if (correctAns != response) {
         // Wrong guess
-        cout << "_Wrong.\n";
+        cout << "_Wrong.\n" << flush;
         this_thread::sleep_for(chrono::seconds(1));
         tries--;
         if (tries == 0) {
