@@ -25,8 +25,8 @@ void clearScreen();
 
 int main() {
     // Speed up
-    // ios::sync_with_stdio(0),
-    // cin.tie(0), cout.tie(0);
+    ios::sync_with_stdio(0),
+    cin.tie(0), cout.tie(0);
 
     // Program
     instructions();
@@ -41,7 +41,7 @@ int main() {
         // User input answer
         cout << '\n';
         cout << " What's the answer? (enter the character of the key) \n";
-        cout << " > ";
+        cout << " > " << flush;
         string response;
         getline(cin, response);
 
@@ -51,11 +51,11 @@ int main() {
         // Continue
         cout << '\n';
         cout << " Do you want to continue? (y/n)\n";
-        cout << " > ";
+        cout << " > " << flush;
         getline(cin, response);
         while (true) {
             if (response != "y" && response != "n") {
-                cout << " > ";
+                cout << " > " << flush;
                 getline(cin, response);
             } else {
                 break;
@@ -67,11 +67,12 @@ int main() {
             break;
         }
     }
-    cout << " _Quit\n";
+    cout << " _Quit\n" << flush;
+    this_thread::sleep_for(chrono::seconds(1));
     if (bestScore == 1) {
-        cout << " Your best score was " << bestScore << " round.\n\n";
+        cout << " Your best score was " << bestScore << " round.\n\n" << flush;
     } else {
-        cout << " Your best score was " << bestScore << " rounds.\n\n";
+        cout << " Your best score was " << bestScore << " rounds.\n\n" << flush;
     }
 }
 
@@ -82,7 +83,7 @@ void instructions() {
     cout << " This is a game about tracking \"quickly-shuffled\" objects!\n";
     cout << " It is an analogy to the idea that Fate often leads to tragedies.\n";
     cout << "\n";
-    cout << " >> Press ENTER to start <<";
+    cout << " >> Press ENTER to start <<" << flush;
     string tmp;
     getline(cin, tmp);
 }
@@ -197,6 +198,7 @@ void printCoordinate(string arr[maxItems][maxItems], int rows, int cols, int def
         }
         cout << '\n';
     }
+    cout << flush;
 }
 
 void checkWin(string correctAns, string response) {
@@ -206,30 +208,30 @@ void checkWin(string correctAns, string response) {
         this_thread::sleep_for(chrono::seconds(1));
         tries--;
         if (tries == 0) {
-            cout << " Oops! You ran out of tries!\n";
+            cout << " Oops! You ran out of tries!\n" << flush;
             this_thread::sleep_for(chrono::seconds(1));
             if (rounds - 2 == 1) {
-                cout << " Your final score was " << rounds - 2 << " round.\n";
+                cout << " Your final score was " << rounds - 2 << " round.\n" << flush;
             } else {
-                cout << " Your final score was " << max(0, rounds - 2) << " rounds.\n";
+                cout << " Your final score was " << max(0, rounds - 2) << " rounds.\n" << flush;
             }
             rounds = 1;
             tries = 3;
         } else {
             if (tries == 1) {
-                cout << " You have " << tries << " try left\n";
+                cout << " You have " << tries << " try left\n" << flush;
             } else {
-                cout << "You have " << tries << " tries left\n";
+                cout << "You have " << tries << " tries left\n" << flush;
             }
         }
     } else {
         // Correct guess
-        cout << "_Correct!\n";
+        cout << "_Correct!\n" << flush;
         this_thread::sleep_for(chrono::seconds(1));
         if (rounds == 1) {
-            cout << " Your current score is " << rounds << " round.\n";
+            cout << " Your current score is " << rounds << " round.\n" << flush;
         } else {
-            cout << " Your current score is " << rounds << " rounds.\n";
+            cout << " Your current score is " << rounds << " rounds.\n" << flush;
         }
         if (rounds > bestScore) {
             bestScore = rounds;
