@@ -10,10 +10,16 @@ using namespace std;
 
 const int maxItems = 10, maxRounds = 30;
 
+int items = 8, rounds = 1;
+int tries = 3;
+int bestScore = 0;
+int shuffleDelayMs = 700;
+
 void instructions();
 void generateEasyShuffle(int arr[maxRounds][maxItems], int items, int rounds);
 void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &result, string symbol, int rows);
 void printCoordinate(string arr[maxItems][maxItems], int rows, int cols, int defaultLength);
+void checkWin(string correctAns, string response);
 string fillStringLength(string str, int fullLength, char fillSymbol = ' ');
 void clearScreen();
 
@@ -25,62 +31,36 @@ int main() {
     // Program
     instructions();
     int shuffleArr[maxRounds][maxItems];
-    int items = 8, rounds = 1;
-    int tries = 3;
-    int bestScore = 0;
     while (true) {
         // Generate and run shuffle
         generateEasyShuffle(shuffleArr, items, rounds);
         string result;
         cout << '\n';
         runShuffle(shuffleArr, items, rounds, result, "o", 4);
+
         // User input answer
         cout << '\n';
         cout << " What's the answer? (enter the character of the key) \n";
         cout << " > ";
         string response;
         getline(cin, response);
+
         // Response
-        if (result != response) {
-            cout << "_Wrong.\n";
-            this_thread::sleep_for(chrono::seconds(1));
-            tries--;
-            if (tries == 0) {
-                cout << " Oops! You ran out of tries!\n";
-                this_thread::sleep_for(chrono::seconds(1));
-                if (rounds == 1) {
-                    cout << " Your final score was " << rounds << " round.\n";
-                } else {
-                    cout << " Your final score was " << rounds << " rounds.\n";
-                }
-                rounds = 1;
-                tries = 3;
-            } else {
-                if (tries == 1) {
-                    cout << " You have " << tries << " try left\n";
-                } else {
-                    cout << "You have " << tries << " tries left\n";
-                }
-            }
-        } else {
-            cout << "_Correct!\n";
-            this_thread::sleep_for(chrono::seconds(1));
-            if (rounds == 1) {
-                cout << " Your current score is " << rounds << " round.\n";
-            } else {
-                cout << " Your current score is " << rounds << " rounds.\n";
-            }
-            if (rounds > bestScore) {
-                bestScore = rounds;
-            }
-            rounds += 2;
-        }
-        this_thread::sleep_for(chrono::seconds(1));
+        checkWin(result, response);
+
         // Continue
         cout << '\n';
         cout << " Do you want to continue? (y/n)\n";
         cout << " > ";
         getline(cin, response);
+        while (true) {
+            if (response != "y" && response != "n") {
+                cout << " > ";
+                getline(cin, response);
+            } else {
+                break;
+            }
+        }
         if (response == "y") {
             continue;
         } else {
@@ -88,7 +68,11 @@ int main() {
         }
     }
     cout << " _Quit\n";
-    cout << " Your best score was " << bestScore << " rounds.\n\n";
+    if (bestScore == 1) {
+        cout << " Your best score was " << bestScore << " round.\n\n";
+    } else {
+        cout << " Your best score was " << bestScore << " rounds.\n\n";
+    }
 }
 
 void instructions() {
@@ -157,7 +141,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
         result = arr[round][result - 1];
         printCoordinate(displayArr, rows, cols, defaultLength);
         // Wait 0.7 seconds
-        this_thread::sleep_for(chrono::milliseconds(700));
+        this_thread::sleep_for(chrono::milliseconds(shuffleDelayMs));
     }
 
     // Show symbol array
@@ -182,7 +166,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
         }
     }
     printCoordinate(displayArr, rows, cols, defaultLength);
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    this_thread::sleep_for(chrono::milliseconds(500));
 
     // Result
     int resultRow = (result - 1) / cols;
@@ -212,6 +196,46 @@ void printCoordinate(string arr[maxItems][maxItems], int rows, int cols, int def
         }
         cout << '\n';
     }
+}
+
+void checkWin(string correctAns, string response) {
+    if (correctAns != response) {
+        // Wrong guess
+        cout << "_Wrong.\n";
+        this_thread::sleep_for(chrono::seconds(1));
+        tries--;
+        if (tries == 0) {
+            cout << " Oops! You ran out of tries!\n";
+            this_thread::sleep_for(chrono::seconds(1));
+            if (rounds - 2 == 1) {
+                cout << " Your final score was " << rounds - 2 << " round.\n";
+            } else {
+                cout << " Your final score was " << max(0, rounds - 2) << " rounds.\n";
+            }
+            rounds = 1;
+            tries = 3;
+        } else {
+            if (tries == 1) {
+                cout << " You have " << tries << " try left\n";
+            } else {
+                cout << "You have " << tries << " tries left\n";
+            }
+        }
+    } else {
+        // Correct guess
+        cout << "_Correct!\n";
+        this_thread::sleep_for(chrono::seconds(1));
+        if (rounds == 1) {
+            cout << " Your current score is " << rounds << " round.\n";
+        } else {
+            cout << " Your current score is " << rounds << " rounds.\n";
+        }
+        if (rounds > bestScore) {
+            bestScore = rounds;
+        }
+        rounds += 2;
+    }
+    this_thread::sleep_for(chrono::seconds(1));
 }
 
 string fillStringLength(string str, int fullLength, char fillSymbol) {
