@@ -16,7 +16,7 @@ Once you lose all 3 tries, you will restart from the beginning.
 
 ## Develop Blog
 ### Challenges I face
-Making the program stop (sleep) for a specific time.
+A challenge I face is making the program stop (sleep) for a specific time.
 <br>
 I don't know about delay functions or libraries in C++ before this project, so it was a challenge to search up and find the solution.
 
