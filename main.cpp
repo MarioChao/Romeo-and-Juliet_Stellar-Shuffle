@@ -25,8 +25,8 @@ void clearScreen();
 
 int main() {
     // Speed up
-    ios::sync_with_stdio(0),
-    cin.tie(0), cout.tie(0);
+    // ios::sync_with_stdio(0),
+    // cin.tie(0), cout.tie(0);
 
     // Program
     instructions();
@@ -122,6 +122,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
 
     // Perform shuffling
     int defaultLength = max((int) symbol.length() + 2, 6);
+    clearScreen();
     cout << fillStringLength("", defaultLength * 1.5) << "Round 0\n";
     printCoordinate(displayArr, rows, cols, defaultLength);
     this_thread::sleep_for(chrono::seconds(1));
