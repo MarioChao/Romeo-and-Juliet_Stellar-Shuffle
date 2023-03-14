@@ -2,7 +2,7 @@
 The Game of Splitting Up and Never Meeting Again
 
 ## Instruction
-Run the main.cpp file.
+Run "make", then run the main file "./main".
 
 There will be 8 items shuffling in a 4x2 manner.
 <br>
