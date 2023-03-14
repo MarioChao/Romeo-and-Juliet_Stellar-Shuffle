@@ -4,13 +4,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
-#include <unistd.h>
+#include <thread>
+#include <chrono>
 using namespace std;
 
 const int maxItems = 10, maxRounds = 30;
-
-int goalMiles = 1e5;
-int currentMiles = 0;
 
 void instructions();
 void generateEasyShuffle(int arr[maxRounds][maxItems], int items, int rounds);
@@ -45,11 +43,11 @@ int main() {
         // Response
         if (result != response) {
             cout << "_Wrong.\n";
-            sleep(1);
+            this_thread::sleep_for(chrono::seconds(1));
             tries--;
             if (tries == 0) {
                 cout << " Oops! You ran out of tries!\n";
-                sleep(1);
+                this_thread::sleep_for(chrono::seconds(1));
                 if (rounds == 1) {
                     cout << " Your final score was " << rounds << " round.\n";
                 } else {
@@ -66,7 +64,7 @@ int main() {
             }
         } else {
             cout << "_Correct!\n";
-            sleep(1);
+            this_thread::sleep_for(chrono::seconds(1));
             if (rounds == 1) {
                 cout << " Your current score is " << rounds << " round.\n";
             } else {
@@ -77,7 +75,7 @@ int main() {
             }
             rounds += 2;
         }
-        sleep(1);
+        this_thread::sleep_for(chrono::seconds(1));
         // Continue
         cout << '\n';
         cout << " Do you want to continue? (y/n)\n";
@@ -142,7 +140,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
     int defaultLength = max((int) symbol.length() + 2, 6);
     cout << fillStringLength("", defaultLength * 1.5) << "Round 0\n";
     printCoordinate(displayArr, rows, cols, defaultLength);
-    sleep(1);
+    this_thread::sleep_for(chrono::seconds(1));
     for (int round = 0; round < rounds; round++) {
         // Override display
         clearScreen();
@@ -159,7 +157,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
         result = arr[round][result - 1];
         printCoordinate(displayArr, rows, cols, defaultLength);
         // Wait 0.7 seconds
-        usleep(1e6 * 0.7);
+        this_thread::sleep_for(chrono::milliseconds(700));
     }
 
     // Show symbol array
@@ -171,7 +169,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
         }
     }
     printCoordinate(displayArr, rows, cols, defaultLength);
-    usleep(1e6 * 1);
+    this_thread::sleep_for(chrono::milliseconds(1000));
 
     // Show character array
     clearScreen();
@@ -184,7 +182,7 @@ void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &res
         }
     }
     printCoordinate(displayArr, rows, cols, defaultLength);
-    usleep(1e6 * 1);
+    this_thread::sleep_for(chrono::milliseconds(1000));
 
     // Result
     int resultRow = (result - 1) / cols;
