@@ -16,6 +16,7 @@ int tries = 3;
 int bestScore = 0;
 int shuffleDelayMs = 700;
 
+void runProgram();
 void instructions();
 void generateEasyShuffle(int arr[maxRounds][maxItems], int items, int rounds);
 void runShuffle(int arr[maxRounds][maxItems], int items, int rounds, string &result, string symbol, int rows);
@@ -30,7 +31,14 @@ int main() {
     cin.tie(0), cout.tie(0);
 
     // Program
+    runProgram();
+}
+
+void runProgram() {
+    // Instruction
     instructions();
+
+    // Game on!
     int shuffleArr[maxRounds][maxItems];
     while (true) {
         // Generate and run shuffle
