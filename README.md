@@ -1,3 +1,5 @@
+[![Run on Repl.it](https://replit.com/badge/github/MarioChao/Romeo-and-Juliet_Stellar-Shuffle)](https://replit.com/new/github/MarioChao/Romeo-and-Juliet_Stellar-Shuffle)
+
 # Romeo And Juliet
 The Game of Splitting Up and Never Meeting Again
 
